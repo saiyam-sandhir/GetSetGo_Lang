@@ -150,5 +150,27 @@ void parser(const vector<Token> &input_tokens)
 
 int main()
 {
+    while(interpreter_running)
+    {
+        string input;
+        char ch;
+        cout << ">>> ";
+
+        while((ch = cin.get()) != '\n')
+        {
+            input += ch;
+        }
+
+        try
+        {
+            parser(lexer(input));
+            input = "";
+        }
+        catch (const Exception &e)
+        {
+            cout << "Exception caught: " << e.err_msg << endl;
+        }
+    }
+    
     return 0;
 }
