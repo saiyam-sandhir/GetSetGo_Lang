@@ -161,16 +161,9 @@ int main()
             input += ch;
         }
 
-        try
-        {
-            parser(lexer(input));
-            input = "";
-        }
-        catch (const Exception &e)
-        {
-            cout << "Exception caught: " << e.err_msg << endl;
-        }
+        parser(lexer(input));
+        input = "";
     }
-    
+
     return 0;
 }
