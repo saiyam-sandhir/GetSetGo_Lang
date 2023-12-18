@@ -1,3 +1,6 @@
+//Author: Saiyam Jain
+//License: MIT License
+
 #include<iostream>
 #include<string>
 #include<vector>
