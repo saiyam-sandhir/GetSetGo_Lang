@@ -2,6 +2,7 @@
 #include<string>
 #include<vector>
 #include<sstream>
+#include<map>
 
 using namespace std;
 
@@ -96,6 +97,55 @@ vector<Token> lexer(string input)
     }
 
     return tokens;
+}
+
+map<string, int> variables;
+bool interpreter_running = true;
+void parser(const vector<Token> &input_tokens)
+{
+    for(auto itr = input_tokens.begin(); itr != input_tokens.end(); ++itr)
+    {
+        switch ((*itr).type)
+        {
+            case GET:
+                if((*(itr + 1)).type == VARIABLE)
+                {
+                    cout << ": ";
+                    string input_line;
+                    getline(cin, input_line);
+                    stringstream(input_line) >> variables[(*(itr + 1)).value];
+                }
+                
+                break;
+
+            case SET:
+                if((*(itr + 1)).type == VARIABLE && (*(itr + 2)).type == EQUAL && (*(itr + 3)).type == NUMERIC)
+                {
+                    variables[(*(itr + 1)).value] = stoi((*(itr + 3)).value);
+                }
+
+                break;
+
+            case GO:
+                if((*(itr + 1)).type == VARIABLE)
+                {
+                    cout << variables[(*(itr + 1)).value] << endl;
+                }
+
+                break;
+                
+            case INVALID:
+                break;
+
+            case END:
+                interpreter_running = false;
+
+                break;
+
+            default:
+                break;
+        }
+    }
 }
 
 int main()
