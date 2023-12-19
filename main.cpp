@@ -25,7 +25,7 @@ class Token
         string value;
 
     public:
-        Token(TokenType typ, string val) : type(typ), value(val){};
+        Token(TokenType type, string value) : type(type), value(value){};
 
         friend void parser(const vector<Token> &input_tokens);
 };
