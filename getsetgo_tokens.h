@@ -38,7 +38,7 @@ namespace GetSetGo_Tokens
             KeywordType m_keyword_type;
 
         public:
-            Keyword()
+            Keyword(KeywordType m_keyword_type) : m_keyword_type(m_keyword_type)
             {
                 m_token_type = KEYWORD;
             }
@@ -65,7 +65,7 @@ namespace GetSetGo_Tokens
             CommandType m_cmd_type;
 
         public:
-            Command()
+            Command(CommandType m_cmd_type) : m_cmd_type(m_cmd_type)
             {
                 m_token_type = KEYWORD;
             }
@@ -73,17 +73,42 @@ namespace GetSetGo_Tokens
 
 
 
+    enum IdentifierType
+    {
+        VARIABLE,
+        FUNCTION
+    };
+
     class Identifier : private Token
     {
         private:
-            const char *m_name, *m_value;
+            const string m_name, m_identifier_type;
 
         public:
-            Identifier()
+            Identifier(string m_name, IdentifierType m_identifer_type) : m_name(m_name), m_identifier_type(m_identifier_type)
             {
                 m_token_type = IDENTIFIER;
             }
     };
+
+    bool is_identifier(string word)
+    {
+        if (!isalpha(word[0]) && word[0] != '_') 
+        {
+            return false;
+        }
+
+        bool is_func = false;
+        for (char c : word) 
+        {
+            if (!isalnum(c) && c != '_') 
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
 
 
@@ -99,30 +124,62 @@ namespace GetSetGo_Tokens
     {
         private:
             LiteralType m_literal_type;
+            string m_literal_value;
 
         public:
-            Literal()
+            Literal(string m_literal_value, LiteralType m_literal_type) : m_literal_value(m_literal_value), m_literal_type(m_literal_type)
             {
                 m_token_type = LITERAL;
             }
     };
 
+    bool isNumericLiteral(string word)
+    {
+        if(isNumeric(word))
+        {
+            return true;
+        }
+
+        return false;
+    }
+    
+    bool isStringLiteral(string word)
+    {
+        if(word[0] == '"' && word[-1] == '"')
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    bool isCharLiteral(string word)
+    {
+        if(word[0] == '\'' && word[-1] == '\'' && word[1] == word[-2])
+        {
+            return true;
+        }
+
+        return false;
+    }
+
 
 
     enum OperatorType
     {
-        NUMERIC,
-        STRING,
-        BOOLEAN
+        NUMERIC_OP,
+        STRING_OP,
+        BOOLEAN_OP
     };
 
     class Operator : private Token
     {
         private:
             OperatorType m_operator_type;
+            char op;
 
         public:
-            Operator()
+            Operator(char op, OperatorType m_operator_type) : op(op), m_operator_type(m_operator_type)
             {
                 m_token_type = OPERATOR;
             }
@@ -143,7 +200,7 @@ namespace GetSetGo_Tokens
             DelimiterType m_delimiter_type;
 
         public:
-            Delimiter()
+            Delimiter(DelimiterType m_delimiter_type) : m_delimiter_type(m_delimiter_type)
             {
                 m_token_type = DELIMITER;
             }

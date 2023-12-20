@@ -3,32 +3,10 @@
 #include<vector>
 #include<sstream>
 #include<map>
+#include<getsetgo_tokens.h>
 
 using namespace std;
-
-enum TokenType
-{
-    GET,
-    SET,
-    GO,
-    EQUAL,
-    VARIABLE,
-    NUMERIC,
-    END,
-    INVALID
-};
-
-class Token
-{
-    private:
-        TokenType type;
-        string value;
-
-    public:
-        Token(TokenType type, string value) : type(type), value(value){};
-
-        friend void parser(const vector<Token> &input_tokens);
-};
+using namespace GetSetGo_Tokens;
 
 bool isAlpha(const string &str)
 {
@@ -64,35 +42,103 @@ vector<Token> lexer(string input)
     {
         if(word == "GET")
         {
-            tokens.emplace_back(Token(GET, "GET"));
+            tokens.emplace_back(Command(GET));
         }
         else if(word == "SET")
         {
-            tokens.emplace_back(Token(SET, "SET"));
+            tokens.emplace_back(Command(SET));
         }
         else if(word == "GO")
         {
-            tokens.emplace_back(Token(GO, "GO"));
+            tokens.emplace_back(Command(GO));
         }
-        else if(isNumeric(word))
+        else if(word == "HURDLE")
         {
-            tokens.emplace_back(Token(NUMERIC, word));
+            tokens.emplace_back(Command(HURDLE));
+        }
+        else if(word == "NEXT_HURDLE")
+        {
+            tokens.emplace_back(Command(NEXT_HURDLE));
+        }
+        else if(word == "LAST_HURDLE")
+        {
+            tokens.emplace_back(Command(LAST_HURDLE));
+        }
+        else if(word == "SKIP_PRACTICE")
+        {
+            tokens.emplace_back(Command(SKIP_PRACTICE));
+        }
+        else if(word == "LAST_PRACTICE")
+        {
+            tokens.emplace_back(Command(STOP_PRACTICE));
         }
         else if(word == "END")
         {
-            tokens.emplace_back(Token(END, "END"));
+            tokens.emplace_back(Command(END));
         }
-        else if(word == "=")
+        else if(is_identifier(word))
         {
-            tokens.emplace_back(Token(EQUAL, "="));
+            tokens.emplace_back(Identifier(word, VARIABLE));
         }
-        else if(isAlpha(word))
+        else if(isNumericLiteral(word))
         {
-            tokens.emplace_back(Token(VARIABLE, word));
+            tokens.emplace_back(Literal(word, NUMERIC));
         }
-        else
+        else if(isStringLiteral(word))
         {
-            tokens.emplace_back(Token(INVALID, word));
+            tokens.emplace_back(Literal(word, STRING));
+        }
+        else if(isCharLiteral(word))
+        {
+            tokens.emplace_back(Literal(word, CHAR));
+        }
+        else if(word == "+")
+        {
+            tokens.emplace_back(Operator('+', NUMERIC_OP));
+        }
+        else if(word == "-")
+        {
+            tokens.emplace_back(Operator('-', NUMERIC_OP));
+        }
+        else if(word == "*")
+        {
+            tokens.emplace_back(Operator('*', NUMERIC_OP));
+        }
+        else if(word == "/")
+        {
+            tokens.emplace_back(Operator('/', NUMERIC_OP));
+        }
+        else if(word == "%")
+        {
+            tokens.emplace_back(Operator('%', STRING_OP));
+        }
+        else if(word == "&")
+        {
+            tokens.emplace_back(Operator('&', BOOLEAN_OP));
+        }
+        else if(word == "|")
+        {
+            tokens.emplace_back(Operator('|', BOOLEAN_OP));
+        }
+        else if(word == "~")
+        {
+            tokens.emplace_back(Operator('~', BOOLEAN_OP));
+        }
+        else if(word == "...")
+        {
+            tokens.emplace_back(Delimiter(ELIPSES));
+        }
+        else if(word == "(")
+        {
+            tokens.emplace_back(Delimiter(LEFT_PAREN));
+        }
+        else if(word == ")")
+        {
+            tokens.emplace_back(Delimiter(RIGHT_PAREN));
+        }
+        else if(word == "#")
+        {
+            tokens.emplace_back(Delimiter(HASH_TAG));
         }
     }
 
