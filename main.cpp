@@ -3,7 +3,7 @@
 #include<vector>
 #include<sstream>
 #include<map>
-#include<getsetgo_tokens.h>
+#include "getsetgo_tokens.h"
 
 using namespace std;
 using namespace GetSetGo_Tokens;
@@ -92,6 +92,10 @@ vector<Token> lexer(string input)
         {
             tokens.emplace_back(Literal(word, CHAR));
         }
+        else if(word == "=")
+        {
+            tokens.emplace_back(Operator('=', GENERIC_OP));
+        }
         else if(word == "+")
         {
             tokens.emplace_back(Operator('+', NUMERIC_OP));
@@ -145,6 +149,7 @@ vector<Token> lexer(string input)
     return tokens;
 }
 
+/*
 map<string, int> variables;
 bool interpreter_running = true;
 void parser(const vector<Token> &input_tokens)
@@ -193,9 +198,11 @@ void parser(const vector<Token> &input_tokens)
         }
     }
 }
+*/
 
 int main()
 {
+    /*
     while(interpreter_running)
     {
         string input;
@@ -210,6 +217,12 @@ int main()
         parser(lexer(input));
         input = "";
     }
-
+    */
+    vector<Token> tokens = lexer("HURDLE FOUL");
+    vector<Token>::iterator itr;
+    for(itr = tokens.begin(); itr != tokens.end(); itr++)
+    {
+        cout << (*itr);
+    }
     return 0;
 }
