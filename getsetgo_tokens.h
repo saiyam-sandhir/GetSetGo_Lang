@@ -35,11 +35,8 @@ namespace GetSetGo_Tokens
     enum KeywordType
     {
         COMMAND,
-        FOUL,           // false
-        SCORE,          // true
-        TEAMWORK,       // &&
-        COLLABORATION,  // ||
-        OPPOSITION      // !
+        FOUL,      // false
+        SCORE,     // true
     };
 
     class Keyword : public Token

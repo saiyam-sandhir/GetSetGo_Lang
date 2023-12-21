@@ -8,37 +8,13 @@
 using namespace std;
 using namespace GetSetGo_Tokens;
 
-bool isAlpha(const string &str)
-{
-    for (char ch : str)
-    {
-        if (!isalpha(ch))
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
-bool isNumeric(const string &str)
-{
-    for (char ch : str)
-    {
-        if (!isdigit(ch))
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
 vector<Token> lexer(string input)
 {
     vector<Token> tokens;
     istringstream iss(input);
     string word;
 
-    while(iss >> word)
+    while(iss >> word) //BUG: cosider a string literal like "Hello world" as two different words 
     {
         if(word == "GET")
         {
@@ -68,13 +44,21 @@ vector<Token> lexer(string input)
         {
             tokens.emplace_back(Command(SKIP_PRACTICE));
         }
-        else if(word == "LAST_PRACTICE")
+        else if(word == "STOP_PRACTICE")
         {
             tokens.emplace_back(Command(STOP_PRACTICE));
         }
         else if(word == "END")
         {
             tokens.emplace_back(Command(END));
+        }
+        else if(word == "FOUL")
+        {
+            tokens.emplace_back(Keyword(FOUL));
+        }
+        else if(word == "SCORE")
+        {
+            tokens.emplace_back(Keyword(SCORE));
         }
         else if(is_identifier(word))
         {
@@ -115,6 +99,14 @@ vector<Token> lexer(string input)
         else if(word == "%")
         {
             tokens.emplace_back(Operator('%', STRING_OP));
+        }
+        else if(word == "==")
+        {
+            tokens.emplace_back(Operator('=', BOOLEAN_OP));
+        }
+        else if(word == "!")
+        {
+            tokens.emplace_back(Operator('!', BOOLEAN_OP));
         }
         else if(word == "&")
         {
@@ -218,7 +210,7 @@ int main()
         input = "";
     }
     */
-    vector<Token> tokens = lexer("HURDLE FOUL");
+    vector<Token> tokens = lexer("( ... )");
     vector<Token>::iterator itr;
     for(itr = tokens.begin(); itr != tokens.end(); itr++)
     {
