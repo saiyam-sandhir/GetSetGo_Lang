@@ -68,10 +68,6 @@ vector<Token> lexer(string input)
         {
             tokens.emplace_back(Literal(word, NUMERIC));
         }
-        else if(isStringLiteral(word))
-        {
-            tokens.emplace_back(Literal(word, STRING));
-        }
         else if(isCharLiteral(word))
         {
             tokens.emplace_back(Literal(word, CHAR));
@@ -95,10 +91,6 @@ vector<Token> lexer(string input)
         else if(word == "/")
         {
             tokens.emplace_back(Operator('/', NUMERIC_OP));
-        }
-        else if(word == "%")
-        {
-            tokens.emplace_back(Operator('%', STRING_OP));
         }
         else if(word == "==")
         {
@@ -210,7 +202,7 @@ int main()
         input = "";
     }
     */
-    vector<Token> tokens = lexer("( ... )");
+    vector<Token> tokens = lexer("GET x SET y = 3 SET print ( ) END");
     vector<Token>::iterator itr;
     for(itr = tokens.begin(); itr != tokens.end(); itr++)
     {

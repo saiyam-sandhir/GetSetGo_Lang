@@ -116,7 +116,6 @@ namespace GetSetGo_Tokens
     enum LiteralType
     {
         NUMERIC,
-        STRING,
         CHAR,
         BOOLEAN
     };
@@ -151,11 +150,6 @@ namespace GetSetGo_Tokens
         return isNumeric(word);
     }
 
-    bool isStringLiteral(const string &word)
-    {
-        return (word.size() >= 2 && word[0] == '"' && word[word.length() - 1] == '"');
-    }
-
     bool isCharLiteral(const string &word)
     {
         return (word.size() >= 3 && word[0] == '\'' && word[word.length() - 1] == '\'' && word[1] == word[word.length() - 2]);
@@ -164,7 +158,6 @@ namespace GetSetGo_Tokens
     enum OperatorType
     {
         NUMERIC_OP,
-        STRING_OP,
         BOOLEAN_OP,
         GENERIC_OP
     };
