@@ -115,6 +115,7 @@ namespace GetSetGo_Tokens
 
     enum LiteralType
     {
+        //Not keeping string literal as it will be converted as an array of chars 
         NUMERIC,
         CHAR,
         BOOLEAN

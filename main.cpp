@@ -14,7 +14,7 @@ vector<Token> lexer(string input)
     istringstream iss(input);
     string word;
 
-    while(iss >> word) //BUG: cosider a string literal like "Hello world" as two different words 
+    while(iss >> word)
     {
         if(word == "GET")
         {
@@ -202,7 +202,7 @@ int main()
         input = "";
     }
     */
-    vector<Token> tokens = lexer("GET x SET y = 3 SET print ( ) END");
+    vector<Token> tokens = lexer("GET x SET y = 3 SET print ( ... ) END");
     vector<Token>::iterator itr;
     for(itr = tokens.begin(); itr != tokens.end(); itr++)
     {
